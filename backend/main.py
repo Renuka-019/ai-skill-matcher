@@ -1,35 +1,32 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from matcher import match_all
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-app = FastAPI()
+app = Flask(__name__)
+CORS(app)  # allow frontend to connect
 
-class UserInput(BaseModel):
-    skills: str
-    interests: str
+# Home route
+@app.route("/")
+def home():
+    return "Backend is running 🚀"
 
-@app.get("/")
-def root():
-    return {"message": "AI Skill Matcher API Running"}
+# API route
+@app.route("/api/match", methods=["POST"])
+def match():
+    data = request.get_json()
 
-@app.post("/match")
-def match(user: UserInput):
-    combined = user.skills + " " + user.interests
+    skills = data.get("skills", [])
+    interests = data.get("interests", [])
 
-    opportunities, courses = match_all(combined)
-
-    score = len(user.skills.split()) * 10
-
-    if score > 100:
-        level = "Advanced"
-    elif score > 50:
-        level = "Intermediate"
-    else:
-        level = "Beginner"
-
-    return {
-        "matches": opportunities[:5],
-        "courses": courses[:3],
-        "skill_score": score,
-        "level": level
+    # Dummy AI logic
+    result = {
+        "recommended_roles": ["Web Developer", "AI Engineer"],
+        "skills": skills,
+        "interests": interests
     }
+
+    return jsonify(result)
+
+
+# Run locally (Render uses gunicorn)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
