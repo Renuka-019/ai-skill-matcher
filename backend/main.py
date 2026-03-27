@@ -4,31 +4,37 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# 📚 MASTER COURSE DATABASE
+@app.route("/")
+def home():
+    return "Backend is running 🚀"
+
+# 📚 COURSE DATABASE (30+ courses)
 course_db = {
     "python": [
-        "Python for Beginners - Udemy",
-        "Automate the Boring Stuff",
-        "Python Data Structures"
+        "Python for Beginners",
+        "Advanced Python Programming",
+        "Data Analysis with Python",
+        "Python Automation"
     ],
     "react": [
         "React Complete Guide",
-        "Frontend Masters React",
-        "React + Redux Bootcamp"
+        "React + Redux Bootcamp",
+        "Frontend Masters React"
     ],
     "ai": [
-        "Machine Learning by Andrew Ng",
+        "Machine Learning - Andrew Ng",
         "Deep Learning Specialization",
-        "AI for Everyone"
+        "AI for Everyone",
+        "Neural Networks Course"
     ],
     "data science": [
         "Data Science Bootcamp",
         "Pandas & NumPy Course",
-        "Data Analysis with Python"
+        "Data Visualization"
     ],
     "web development": [
-        "Full Stack Web Dev",
-        "HTML CSS JS Complete Guide",
+        "Full Stack Web Development",
+        "HTML CSS JS Mastery",
         "MERN Stack Course"
     ],
     "java": [
@@ -37,11 +43,12 @@ course_db = {
     ],
     "c++": [
         "C++ for Beginners",
-        "DSA in C++"
+        "DSA with C++"
     ],
     "cloud": [
-        "AWS Certified Solutions Architect",
-        "Azure Fundamentals"
+        "AWS Solutions Architect",
+        "Azure Fundamentals",
+        "Google Cloud Basics"
     ],
     "cybersecurity": [
         "Ethical Hacking Course",
@@ -49,10 +56,10 @@ course_db = {
     ]
 }
 
-# 🧠 AI recommendation logic
-def recommend(skills, interests):
-    roles = []
+# 🧠 RECOMMENDATION LOGIC
+def recommend_courses(skills, interests):
     courses = []
+    roles = []
 
     for skill in skills:
         skill = skill.lower().strip()
@@ -64,20 +71,16 @@ def recommend(skills, interests):
             roles.append("AI Engineer")
         elif skill == "react":
             roles.append("Frontend Developer")
-        elif skill == "data science":
-            roles.append("Data Scientist")
         elif skill == "java":
             roles.append("Backend Developer")
+        elif skill == "data science":
+            roles.append("Data Scientist")
 
     if "ai" in interests:
         courses.extend(course_db.get("ai", []))
         roles.append("AI Specialist")
 
-    # remove duplicates
-    courses = list(set(courses))
-    roles = list(set(roles))
-
-    return roles, courses
+    return list(set(roles)), list(set(courses))
 
 
 @app.route("/api/match", methods=["POST"])
@@ -87,7 +90,7 @@ def match():
     skills = data.get("skills", [])
     interests = data.get("interests", [])
 
-    roles, courses = recommend(skills, interests)
+    roles, courses = recommend_courses(skills, interests)
 
     return jsonify({
         "recommended_roles": roles,
@@ -95,6 +98,26 @@ def match():
         "skill_score": "85%",
         "level": "Intermediate"
     })
+
+
+# 🔐 SIMPLE LOGIN/SIGNUP
+users = []
+
+@app.route("/api/signup", methods=["POST"])
+def signup():
+    data = request.get_json()
+    users.append(data)
+    return jsonify({"message": "User registered"})
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    data = request.get_json()
+
+    for user in users:
+        if user["email"] == data["email"] and user["password"] == data["password"]:
+            return jsonify({"message": "Login successful"})
+    
+    return jsonify({"message": "Invalid credentials"}), 401
 
 
 if __name__ == "__main__":
