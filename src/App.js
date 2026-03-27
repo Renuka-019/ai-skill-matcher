@@ -1,5 +1,46 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import Signup from "./Signup";
 import "./App.css";
+
+function Home({ skills, interests, setSkills, setInterests, handleSubmit, result, loading }) {
+  return (
+    <div className="card">
+      <h1>🚀 AI Skill Matcher</h1>
+
+      <input
+        placeholder="Enter skills"
+        value={skills}
+        onChange={(e) => setSkills(e.target.value)}
+      />
+
+      <input
+        placeholder="Enter interests"
+        value={interests}
+        onChange={(e) => setInterests(e.target.value)}
+      />
+
+      <button onClick={handleSubmit}>
+        {loading ? "Matching..." : "Find Opportunities"}
+      </button>
+
+      {result && (
+        <div className="results">
+          <h3>🎯 Roles</h3>
+          <ul>
+            {result.matches.map((m, i) => <li key={i}>{m}</li>)}
+          </ul>
+
+          <h3>📚 Courses</h3>
+          <ul>
+            {result.courses.map((c, i) => <li key={i}>{c}</li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function App() {
   const [skills, setSkills] = useState("");
@@ -9,91 +50,58 @@ function App() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    setResult(null);
 
-    try {
-      const response = await fetch(
-        "https://ai-skill-matcher.onrender.com/api/match",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            skills: skills.split(",").map(s => s.trim()),
-            interests: interests.split(",").map(i => i.trim()),
-          }),
-        }
-      );
+    const res = await fetch("https://ai-skill-matcher.onrender.com/api/match", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        skills: skills.split(","),
+        interests: interests.split(","),
+      }),
+    });
 
-      const data = await response.json();
+    const data = await res.json();
 
-      setResult({
-        skill_score: data.skill_score || "85%",
-        level: data.level || "Intermediate",
-        matches: data.recommended_roles || [],
-        courses: data.courses || [],
-      });
-
-    } catch (error) {
-      alert("Error connecting to backend ❌");
-    }
+    setResult({
+      matches: data.recommended_roles,
+      courses: data.courses,
+    });
 
     setLoading(false);
   };
 
   return (
-    <div className="container">
+    <BrowserRouter>
 
-      <h1>🚀 AI Skill Matcher</h1>
-
-      <div className="card">
-
-        <input
-          placeholder="Enter skills (Python, React...)"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-        />
-
-        <input
-          placeholder="Enter interests (AI, Web...)"
-          value={interests}
-          onChange={(e) => setInterests(e.target.value)}
-        />
-
-        <button onClick={handleSubmit}>
-          {loading ? "Matching..." : "Find Opportunities"}
-        </button>
-
-        {loading && <p>Loading...</p>}
-
-        {result && (
-          <div className="results">
-
-            <div>
-              <p><b>Score:</b> {result.skill_score}</p>
-              <p><b>Level:</b> {result.level}</p>
-            </div>
-
-            <h3>🎯 Roles</h3>
-            <ul>
-              {result.matches.map((m, i) => (
-                <li key={i}>{m}</li>
-              ))}
-            </ul>
-
-            <h3>📚 Courses</h3>
-            <ul>
-              {result.courses.map((c, i) => (
-                <li key={i}>{c}</li>
-              ))}
-            </ul>
-
-          </div>
-        )}
-
+      {/* 🔥 NAVBAR */}
+      <div style={{ marginBottom: "20px" }}>
+        <a href="/" style={{ marginRight: "10px" }}>Home</a>
+        <a href="/login" style={{ marginRight: "10px" }}>Login</a>
+        <a href="/signup">Signup</a>
       </div>
-    </div>
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              skills={skills}
+              interests={interests}
+              setSkills={setSkills}
+              setInterests={setInterests}
+              handleSubmit={handleSubmit}
+              result={result}
+              loading={loading}
+            />
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 
