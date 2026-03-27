@@ -13,33 +13,30 @@ function App() {
 
     try {
       const response = await fetch(
-        "https://ai-skill-matcher.onrender.com/api/match", // ✅ correct API
+        "https://ai-skill-matcher.onrender.com/api/match",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            skills: skills.split(","),       // convert to array
-            interests: interests.split(","), // convert to array
+            skills: skills.split(",").map(s => s.trim()),
+            interests: interests.split(",").map(i => i.trim()),
           }),
         }
       );
 
       const data = await response.json();
-      console.log("Backend response:", data);
 
-      // Dummy mapping (since backend returns simple data)
       setResult({
-        skill_score: "85%",
-        level: "Intermediate",
+        skill_score: data.skill_score || "85%",
+        level: data.level || "Intermediate",
         matches: data.recommended_roles || [],
-        courses: ["React Course", "AI Basics"],
+        courses: data.courses || [],
       });
 
     } catch (error) {
-      alert("Error connecting to backend");
-      console.error(error);
+      alert("Error connecting to backend ❌");
     }
 
     setLoading(false);
@@ -47,18 +44,19 @@ function App() {
 
   return (
     <div className="container">
+
+      <h1>🚀 AI Skill Matcher</h1>
+
       <div className="card">
 
-        <h1>🚀 AI Skill Matcher</h1>
-
         <input
-          placeholder="Enter skills (Python, ML...)"
+          placeholder="Enter skills (Python, React...)"
           value={skills}
           onChange={(e) => setSkills(e.target.value)}
         />
 
         <input
-          placeholder="Enter interests"
+          placeholder="Enter interests (AI, Web...)"
           value={interests}
           onChange={(e) => setInterests(e.target.value)}
         />
@@ -71,28 +69,26 @@ function App() {
 
         {result && (
           <div className="results">
-            <div className="summary">
+
+            <div>
               <p><b>Score:</b> {result.skill_score}</p>
               <p><b>Level:</b> {result.level}</p>
             </div>
 
-            <div className="section">
-              <h3>🎯 Matches</h3>
-              <ul>
-                {result.matches.map((m, i) => (
-                  <li key={i}>{m}</li>
-                ))}
-              </ul>
-            </div>
+            <h3>🎯 Roles</h3>
+            <ul>
+              {result.matches.map((m, i) => (
+                <li key={i}>{m}</li>
+              ))}
+            </ul>
 
-            <div className="section">
-              <h3>📚 Courses</h3>
-              <ul>
-                {result.courses.map((c, i) => (
-                  <li key={i}>{c}</li>
-                ))}
-              </ul>
-            </div>
+            <h3>📚 Courses</h3>
+            <ul>
+              {result.courses.map((c, i) => (
+                <li key={i}>{c}</li>
+              ))}
+            </ul>
+
           </div>
         )}
 
