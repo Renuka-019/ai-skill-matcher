@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const handleSignup = async () => {
@@ -21,15 +21,17 @@ function Signup() {
   };
 
   return (
-    <div className="card">
-      <h2>Signup</h2>
+    <div className="container">
+      <motion.div className="card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <h2>📝 Signup</h2>
 
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+        <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
 
-      <button onClick={handleSignup}>Signup</button>
+        <button onClick={handleSignup}>Signup</button>
+      </motion.div>
     </div>
   );
 }
 
-export default Signup;;
+export default Signup;
