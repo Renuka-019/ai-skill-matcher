@@ -7,18 +7,18 @@ function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+ const handleSignup = async () => {
+  await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
 
-    alert("Registered!");
-    navigate("/");
-  };
+  localStorage.setItem("isLoggedIn", "true"); // ✅ auto login
+  navigate("/home"); // ✅ go to main page
+};
 
   return (
     <div className="container">
