@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-    const res = await fetch("https://ai-skill-matcher.onrender.com/api/login", {
+  const navigate = useNavigate();
+
+  const handleSignup = async () => {
+    await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,18 +16,20 @@ function Login() {
       body: JSON.stringify({ email, password }),
     });
 
-    const data = await res.json();
-    alert(data.message);
+    alert("Registered!");
+    navigate("/");
   };
 
   return (
     <div className="card">
-      <h2>Login</h2>
+      <h2>Signup</h2>
+
       <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
       <input placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
+
+      <button onClick={handleSignup}>Signup</button>
     </div>
   );
 }
 
-export default Login;
+export default Signup;;
