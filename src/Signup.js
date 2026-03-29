@@ -22,11 +22,11 @@ function Signup() {
 
   return (
     <div className="container">
-      <motion.div className="card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div className="card" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
         <h2>📝 Signup</h2>
 
         <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-        <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 
         <button onClick={handleSignup}>Signup</button>
       </motion.div>
