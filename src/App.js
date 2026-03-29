@@ -11,14 +11,20 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* If already logged in → skip login */}
+        <Route
+          path="/"
+          element={isLoggedIn ? <Navigate to="/home" /> : <Login />}
+        />
+
+        <Route
+          path="/signup"
+          element={isLoggedIn ? <Navigate to="/home" /> : <Signup />}
+        />
 
         <Route
           path="/home"
-          element={
-            isLoggedIn ? <Home /> : <Navigate to="/" />
-          }
+          element={isLoggedIn ? <Home /> : <Navigate to="/" />}
         />
 
       </Routes>
