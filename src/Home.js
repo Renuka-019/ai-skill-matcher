@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 function Home() {
   const [skills, setSkills] = useState("");
@@ -18,35 +19,33 @@ function Home() {
     });
 
     const data = await res.json();
-
-    setResult({
-      matches: data.recommended_roles,
-      courses: data.courses,
-    });
+    setResult(data);
   };
 
   return (
-    <div className="card">
-      <h1>🚀 AI Skill Matcher</h1>
+    <div className="container">
+      <motion.div className="card" initial={{ y: 40 }} animate={{ y: 0 }}>
+        <h1>🚀 AI Skill Matcher</h1>
 
-      <input placeholder="Skills" onChange={(e) => setSkills(e.target.value)} />
-      <input placeholder="Interests" onChange={(e) => setInterests(e.target.value)} />
+        <input placeholder="Skills" onChange={(e) => setSkills(e.target.value)} />
+        <input placeholder="Interests" onChange={(e) => setInterests(e.target.value)} />
 
-      <button onClick={handleSubmit}>Find</button>
+        <button onClick={handleSubmit}>Find Opportunities</button>
 
-      {result && (
-        <>
-          <h3>Roles</h3>
-          <ul>
-            {result.matches.map((m, i) => <li key={i}>{m}</li>)}
-          </ul>
+        {result && (
+          <div className="results">
+            <h3>🎯 Roles</h3>
+            <ul>
+              {result.recommended_roles.map((r, i) => <li key={i}>{r}</li>)}
+            </ul>
 
-          <h3>Courses</h3>
-          <ul>
-            {result.courses.map((c, i) => <li key={i}>{c}</li>)}
-          </ul>
-        </>
-      )}
+            <h3>📚 Courses</h3>
+            <ul>
+              {result.courses.map((c, i) => <li key={i}>{c}</li>)}
+            </ul>
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 }
