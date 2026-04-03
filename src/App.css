@@ -1,44 +1,59 @@
-/* REMOVE WHITE BACKGROUND */
-html, body, #root {
+/* GLOBAL */
+body {
   margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #0f172a;
   font-family: 'Poppins', sans-serif;
+  background: #0f172a;
   color: white;
 }
 
-/* LAYOUT */
-.container {
+/* MAIN LAYOUT */
+.app {
   display: flex;
   height: 100vh;
 }
 
-/* LEFT SIDE */
-.left {
-  flex: 1;
-  background: linear-gradient(135deg, #6366f1, #22c55e);
+/* SIDEBAR */
+.sidebar {
+  width: 250px;
+  background: #020617;
+  padding: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* RIGHT SIDE */
-.right {
+.menu p {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+/* LOGOUT */
+.logout {
+  background: red;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+
+/* MAIN */
+.main {
   flex: 1;
-  background: #020617;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 20px;
+}
+
+/* TOPBAR */
+.topbar {
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 /* CARD */
 .card {
-  background: rgba(255,255,255,0.08);
-  padding: 30px;
-  border-radius: 15px;
-  width: 300px;
-  backdrop-filter: blur(10px);
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 /* INPUT */
@@ -48,7 +63,6 @@ input {
   margin: 10px 0;
   border-radius: 8px;
   border: none;
-  outline: none;
 }
 
 /* BUTTON */
@@ -60,5 +74,18 @@ button {
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
+}
+
+/* RESULTS GRID */
+.results-grid {
+  display: flex;
+  gap: 20px;
+}
+
+/* RESULT CARD */
+.result-card {
+  flex: 1;
+  background: #020617;
+  padding: 20px;
+  border-radius: 12px;
 }
