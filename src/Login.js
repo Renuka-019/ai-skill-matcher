@@ -5,13 +5,15 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     console.log("Login clicked");
 
+    // 🔴 validation
     if (!email || !password) {
-      alert("Please fill all fields");
+      alert("Please fill all fields ❗");
       return;
     }
 
@@ -26,18 +28,20 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
-      console.log(data);
-
-      if (data.message === "Login successful") {
+      // 🔥 IMPORTANT FIX (status based)
+      if (res.status === 200) {
         localStorage.setItem("isLoggedIn", "true");
+        alert("Login successful ✅");
         navigate("/home");
+      } else if (res.status === 401) {
+        alert("Invalid email or password ❌");
       } else {
-        alert(data.message || "Invalid login");
+        alert("Something went wrong ⚠️");
       }
+
     } catch (err) {
       console.error(err);
-      alert("Server is slow or down 😅 Try again");
+      alert("Server slow or down 😅");
     }
 
     setLoading(false);
@@ -52,28 +56,31 @@ function Login() {
 
       <div className="right">
         <div className="card">
+
           <h2>Login</h2>
 
           <input
-            placeholder="Email"
+            placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
           <button type="button" onClick={handleLogin}>
-            {loading ? "Please wait..." : "Login"}
+            {loading ? "Logging in..." : "Login"}
           </button>
 
           <p>
-            Don't have account? <a href="/signup">Signup</a>
+            Don't have account?{" "}
+            <a href="/signup">Signup</a>
           </p>
+
         </div>
       </div>
 
