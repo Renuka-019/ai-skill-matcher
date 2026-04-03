@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaUser, FaHome, FaBook, FaSignOutAlt } from "react-icons/fa";
 
 function Home() {
   const [skills, setSkills] = useState("");
@@ -19,68 +20,88 @@ function Home() {
       });
 
       const data = await res.json();
-      console.log("API DATA:", data); // 🔥 DEBUG
-
       setResult(data);
-    } catch (err) {
-      console.error(err);
-      alert("Backend not working ❌");
+    } catch {
+      alert("Server error ❌");
     }
   };
 
   return (
-    <div className="container">
-      <div className="card">
+    <div className="app">
 
-        <h1>🚀 AI Skill Matcher</h1>
+      {/* SIDEBAR */}
+      <div className="sidebar">
+        <h2>🚀 AI Matcher</h2>
 
-        <input
-          placeholder="Skills"
-          onChange={(e) => setSkills(e.target.value)}
-        />
-
-        <input
-          placeholder="Interests"
-          onChange={(e) => setInterests(e.target.value)}
-        />
-
-        <button onClick={handleSubmit}>Find</button>
+        <div className="menu">
+          <p><FaHome /> Dashboard</p>
+          <p><FaUser /> Profile</p>
+          <p><FaBook /> Courses</p>
+        </div>
 
         <button
+          className="logout"
           onClick={() => {
             localStorage.removeItem("isLoggedIn");
             window.location.href = "/";
           }}
         >
-          Logout
+          <FaSignOutAlt /> Logout
         </button>
+      </div>
 
-        {/* ✅ SAFE RENDERING */}
+      {/* MAIN CONTENT */}
+      <div className="main">
+
+        {/* NAVBAR */}
+        <div className="topbar">
+          Welcome 👋
+        </div>
+
+        {/* INPUT CARD */}
+        <div className="card">
+          <h2>Find Your Career Path</h2>
+
+          <input
+            placeholder="Enter skills (Python, React)"
+            onChange={(e) => setSkills(e.target.value)}
+          />
+
+          <input
+            placeholder="Enter interests"
+            onChange={(e) => setInterests(e.target.value)}
+          />
+
+          <button onClick={handleSubmit}>Find Matches</button>
+        </div>
+
+        {/* RESULTS */}
         {result && (
-          <div className="results">
+          <div className="results-grid">
 
-            <h3>🎯 Roles</h3>
-            <ul>
-              {result.recommended_roles
-                ? result.recommended_roles.map((r, i) => (
-                    <li key={i}>{r}</li>
-                  ))
-                : <li>No roles</li>}
-            </ul>
+            <div className="result-card">
+              <h3>🎯 Roles</h3>
+              <ul>
+                {result.recommended_roles?.map((r, i) => (
+                  <li key={i}>{r}</li>
+                ))}
+              </ul>
+            </div>
 
-            <h3>📚 Courses</h3>
-            <ul>
-              {result.courses
-                ? result.courses.map((c, i) => (
-                    <li key={i}>{c}</li>
-                  ))
-                : <li>No courses</li>}
-            </ul>
+            <div className="result-card">
+              <h3>📚 Courses</h3>
+              <ul>
+                {result.courses?.map((c, i) => (
+                  <li key={i}>{c}</li>
+                ))}
+              </ul>
+            </div>
 
           </div>
         )}
 
       </div>
+
     </div>
   );
 }
