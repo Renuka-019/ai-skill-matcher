@@ -1,44 +1,72 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a, #0f172a);
-  color: white;
+  background: #0f172a;
 }
 
+/* 🔥 SPLIT SCREEN */
 .container {
+  display: flex;
   height: 100vh;
+}
+
+/* LEFT SIDE */
+.left {
+  flex: 1;
+  background: linear-gradient(135deg, #6366f1, #22c55e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 40px;
+}
+
+.left h1 {
+  font-size: 32px;
+}
+
+/* RIGHT SIDE */
+.right {
+  flex: 1;
+  background: #111827;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* FORM CARD */
 .card {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.05);
+  padding: 40px;
+  border-radius: 15px;
+  width: 320px;
   backdrop-filter: blur(15px);
-  padding: 30px;
-  border-radius: 20px;
-  width: 350px;
   text-align: center;
 }
 
+/* INPUT */
 input {
-  width: 90%;
+  width: 100%;
   padding: 12px;
-  margin: 10px;
+  margin: 10px 0;
   border-radius: 10px;
   border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
+/* BUTTON */
 button {
+  width: 100%;
   padding: 12px;
-  margin: 10px;
-  border: none;
   border-radius: 10px;
+  border: none;
   background: #22c55e;
   color: white;
   cursor: pointer;
+  margin-top: 10px;
 }
 
-.results {
-  text-align: left;
+a {
+  color: #38bdf8;
 }
