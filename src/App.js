@@ -12,7 +12,6 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* If already logged in → skip login */}
         <Route
           path="/"
           element={isLoggedIn ? <Navigate to="/home" /> : <Login />}
