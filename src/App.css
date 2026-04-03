@@ -1,10 +1,13 @@
-body {
+/* FORCE DARK BACKGROUND */
+html, body, #root {
+  height: 100%;
   margin: 0;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a, #020617);
   font-family: 'Poppins', sans-serif;
-  background: #0f172a;
+  color: white;
 }
 
-/* 🔥 SPLIT SCREEN */
+/* FULL SCREEN FIX */
 .container {
   display: flex;
   height: 100vh;
@@ -17,12 +20,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  padding: 40px;
-}
-
-.left h1 {
-  font-size: 32px;
 }
 
 /* RIGHT SIDE */
@@ -34,14 +31,13 @@ body {
   align-items: center;
 }
 
-/* FORM CARD */
+/* CARD */
 .card {
-  background: rgba(255,255,255,0.05);
-  padding: 40px;
+  background: rgba(255,255,255,0.08);
+  padding: 30px;
   border-radius: 15px;
-  width: 320px;
-  backdrop-filter: blur(15px);
-  text-align: center;
+  width: 300px;
+  backdrop-filter: blur(10px);
 }
 
 /* INPUT */
@@ -49,24 +45,17 @@ input {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
-  border-radius: 10px;
+  border-radius: 8px;
   border: none;
-  background: rgba(255,255,255,0.1);
-  color: white;
 }
 
 /* BUTTON */
 button {
   width: 100%;
   padding: 12px;
-  border-radius: 10px;
   border: none;
   background: #22c55e;
   color: white;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
-}
-
-a {
-  color: #38bdf8;
 }
