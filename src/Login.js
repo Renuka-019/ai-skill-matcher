@@ -32,7 +32,7 @@ function Login() {
       if (res.status === 200) {
         localStorage.setItem("isLoggedIn", "true");
         alert("Login successful ✅");
-        navigate("/home");
+        window.location.href = "/home";
       } else if (res.status === 401) {
         alert("Invalid email or password ❌");
       } else {
