@@ -7,38 +7,32 @@ function Signup() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    if (!email || !password) {
-      alert("Please fill all fields");
-      return;
+const handleSignup = async () => {
+  if (!email || !password) {
+    alert("Please fill all fields ❗");
+    return;
+  }
+
+  try {
+    const res = await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (res.status === 200) {
+      alert("Signup successful ✅");
+      navigate("/");
+    } else {
+      alert("User already exists ❌");
     }
 
-    setLoading(true);
-
-    try {
-      const res = await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-      console.log(data);
-
-      // Even if backend slow → still proceed
-      localStorage.setItem("isLoggedIn", "true");
-      navigate("/home");
-
-    } catch (err) {
-      console.error(err);
-      alert("Signup slow 😅 Try again");
-    }
-
-    setLoading(false);
-  };
-
+  } catch {
+    alert("Server error 😅");
+  }
+};
   return (
     <div className="container">
 
