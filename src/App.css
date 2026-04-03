@@ -1,28 +1,26 @@
-/* FORCE DARK BACKGROUND */
 html, body, #root {
-  height: 100%;
   margin: 0;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a, #020617);
+  height: 100%;
   font-family: 'Poppins', sans-serif;
-  color: white;
 }
 
-/* FULL SCREEN FIX */
+/* SPLIT SCREEN */
 .container {
   display: flex;
   height: 100vh;
 }
 
-/* LEFT SIDE */
+/* LEFT */
 .left {
   flex: 1;
   background: linear-gradient(135deg, #6366f1, #22c55e);
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 .right {
   flex: 1;
   background: #111827;
@@ -38,6 +36,7 @@ html, body, #root {
   border-radius: 15px;
   width: 300px;
   backdrop-filter: blur(10px);
+  color: white;
 }
 
 /* INPUT */
@@ -58,4 +57,5 @@ button {
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  margin-top: 10px;
 }
