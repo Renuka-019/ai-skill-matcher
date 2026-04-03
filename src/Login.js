@@ -8,40 +8,32 @@ function Login() {
 
   const navigate = useNavigate();
 
-const handleLogin = async () => {
-  try {
-    const res = await fetch("https://ai-skill-matcher.onrender.com/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("https://ai-skill-matcher.onrender.com/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    console.log("STATUS:", res.status); // 🔥 DEBUG
+      console.log("STATUS:", res.status);
 
-    if (res.status === 200) {
-      console.log("Login success ✅");
+      if (res.status === 200) {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "/home";
+      } else {
+        alert("Invalid credentials ❌");
+      }
 
-      localStorage.setItem("isLoggedIn", "true");
-
-      console.log("Stored:", localStorage.getItem("isLoggedIn")); // 🔥 CHECK
-
-      window.location.href = "/home";
-    } else {
-      console.log("Login failed ❌");
-      alert("Invalid credentials");
+    } catch (err) {
+      console.error(err);
+      alert("Server error 😅");
     }
-
-  } catch (err) {
-    console.error("ERROR:", err);
-    alert("Server error");
-  }
-};
-
-    setLoading(false);
   };
 
+  // ✅ RETURN MUST BE INSIDE FUNCTION
   return (
     <div className="container">
 
@@ -55,25 +47,24 @@ const handleLogin = async () => {
           <h2>Login</h2>
 
           <input
-            placeholder="Enter Email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <input
             type="password"
-            placeholder="Enter Password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type="button" onClick={handleLogin}>
-            {loading ? "Logging in..." : "Login"}
+          <button onClick={handleLogin}>
+            {loading ? "Logging..." : "Login"}
           </button>
 
           <p>
-            Don't have account?{" "}
-            <a href="/signup">Signup</a>
+            Don't have account? <a href="/signup">Signup</a>
           </p>
 
         </div>
