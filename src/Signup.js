@@ -7,21 +7,24 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      await fetch("https://ai-skill-matcher.onrender.com/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    localStorage.setItem("isLoggedIn", "true");
-    navigate("/home");
+      localStorage.setItem("isLoggedIn", "true");
+      navigate("/home");
+    } catch {
+      alert("Signup failed ❌");
+    }
   };
 
   return (
     <div className="container">
-
       <div className="left">
         <h1>Create Account 🚀</h1>
       </div>
@@ -33,10 +36,9 @@ function Signup() {
           <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 
-          <button onClick={handleSignup}>Signup</button>
+          <button type="button" onClick={handleSignup}>Signup</button>
         </div>
       </div>
-
     </div>
   );
 }
