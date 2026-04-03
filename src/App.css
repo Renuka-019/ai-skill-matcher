@@ -1,20 +1,20 @@
-/* 🔥 REMOVE WHITE COMPLETELY */
+/* REMOVE WHITE BACKGROUND */
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #0f172a;  /* DARK BACKGROUND */
+  background: #0f172a;
   font-family: 'Poppins', sans-serif;
   color: white;
 }
 
-/* FULL SCREEN LAYOUT */
+/* LAYOUT */
 .container {
   display: flex;
   height: 100vh;
 }
 
-/* LEFT PANEL */
+/* LEFT SIDE */
 .left {
   flex: 1;
   background: linear-gradient(135deg, #6366f1, #22c55e);
@@ -23,10 +23,10 @@ html, body, #root {
   align-items: center;
 }
 
-/* RIGHT PANEL */
+/* RIGHT SIDE */
 .right {
   flex: 1;
-  background: #020617; /* DARK BLACK */
+  background: #020617;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,3 +38,27 @@ html, body, #root {
   padding: 30px;
   border-radius: 15px;
   width: 300px;
+  backdrop-filter: blur(10px);
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
