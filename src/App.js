@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import Signup from "./Signup";
 import Home from "./Home";
+import "./App.css";
 
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
