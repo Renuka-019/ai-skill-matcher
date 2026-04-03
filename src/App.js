@@ -15,6 +15,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
+        {/* 🔥 FIXED */}
         <Route
           path="/home"
           element={isLoggedIn ? <Home /> : <Navigate to="/" />}
