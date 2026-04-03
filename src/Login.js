@@ -8,41 +8,36 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    console.log("Login clicked");
+const handleLogin = async () => {
+  try {
+    const res = await fetch("https://ai-skill-matcher.onrender.com/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-    // 🔴 validation
-    if (!email || !password) {
-      alert("Please fill all fields ❗");
-      return;
+    console.log("STATUS:", res.status); // 🔥 DEBUG
+
+    if (res.status === 200) {
+      console.log("Login success ✅");
+
+      localStorage.setItem("isLoggedIn", "true");
+
+      console.log("Stored:", localStorage.getItem("isLoggedIn")); // 🔥 CHECK
+
+      window.location.href = "/home";
+    } else {
+      console.log("Login failed ❌");
+      alert("Invalid credentials");
     }
 
-    setLoading(true);
-
-    try {
-      const res = await fetch("https://ai-skill-matcher.onrender.com/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      // 🔥 IMPORTANT FIX (status based)
-      if (res.status === 200) {
-        localStorage.setItem("isLoggedIn", "true");
-        alert("Login successful ✅");
-        window.location.href = "/home";
-      } else if (res.status === 401) {
-        alert("Invalid email or password ❌");
-      } else {
-        alert("Something went wrong ⚠️");
-      }
-
-    } catch (err) {
-      console.error(err);
-      alert("Server slow or down 😅");
-    }
+  } catch (err) {
+    console.error("ERROR:", err);
+    alert("Server error");
+  }
+};
 
     setLoading(false);
   };
