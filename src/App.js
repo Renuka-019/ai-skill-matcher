@@ -6,21 +6,14 @@ import Home from "./Home";
 import "./App.css";
 
 function App() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   return (
     <BrowserRouter>
       <Routes>
 
-        <Route
-          path="/"
-          element={isLoggedIn ? <Navigate to="/home" /> : <Login />}
-        />
-
-        <Route
-          path="/signup"
-          element={isLoggedIn ? <Navigate to="/home" /> : <Signup />}
-        />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
         <Route
           path="/home"
