@@ -1,28 +1,23 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Login";
-import Signup from "./Signup";
-import Home from "./Home";
-import "./App.css";
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import SkillInput from "./components/SkillInput";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const [data, setData] = useState(null);
 
   return (
-    <BrowserRouter>
-      <Routes>
-
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        {/* 🔥 FIXED */}
-        <Route
-          path="/home"
-          element={isLoggedIn ? <Home /> : <Navigate to="/" />}
-        />
-
-      </Routes>
-    </BrowserRouter>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1 bg-gray-900 min-h-screen">
+        <Navbar />
+        <div className="p-6">
+          <SkillInput setData={setData} />
+          <Dashboard data={data} />
+        </div>
+      </div>
+    </div>
   );
 }
 
