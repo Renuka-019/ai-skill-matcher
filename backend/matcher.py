@@ -1,43 +1,31 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from data import opportunities, courses
 
-opportunities = [
-    {"title": "Web Dev Internship", "skills": "html css javascript react"},
-    {"title": "ML Project", "skills": "python machine learning ai numpy"},
-    {"title": "Android Dev", "skills": "java kotlin android"},
-    {"title": "Data Science Intern", "skills": "python pandas sql data"},
-    {"title": "Open Source", "skills": "git github coding"}
-]
-
-courses = [
-    {"name": "Python for Beginners", "skills": "python"},
-    {"name": "React Crash Course", "skills": "react javascript"},
-    {"name": "Machine Learning Basics", "skills": "machine learning ai"},
-]
-
-def match_all(user_input):
-    corpus = [user_input] + [o["skills"] for o in opportunities] + [c["skills"] for c in courses]
+def match_data(user_text):
+    corpus = [user_text] + [o["skills"] for o in opportunities] + [c["skills"] for c in courses]
 
     vectorizer = TfidfVectorizer()
     vectors = vectorizer.fit_transform(corpus)
 
-    similarity = cosine_similarity(vectors[0:1], vectors[1:]).flatten()
+    sim = cosine_similarity(vectors[0:1], vectors[1:]).flatten()
 
-    results_opportunities = []
-    results_courses = []
+    opp_results = []
+    course_results = []
 
-    for i, score in enumerate(similarity):
+    for i, score in enumerate(sim):
         if i < len(opportunities):
-            results_opportunities.append({
+            opp_results.append({
                 "title": opportunities[i]["title"],
                 "score": round(score * 100, 2)
             })
         else:
             idx = i - len(opportunities)
-            results_courses.append({
+            course_results.append({
                 "name": courses[idx]["name"],
                 "score": round(score * 100, 2)
             })
 
-    return sorted(results_opportunities, key=lambda x: x["score"], reverse=True), \
-           sorted(results_courses, key=lambda x: x["score"], reverse=True)
+    return sorted(opp_results, key=lambda x: x["score"], reverse=True), \
+           sorted(course_results, key=lambda x: x["score"], reverse=True)
+    
